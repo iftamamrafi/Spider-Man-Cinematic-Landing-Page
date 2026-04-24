@@ -117,28 +117,52 @@ function App() {
       <CastSection />
 
       {/* Footer */}
-      <footer className="relative z-10 w-full py-20 bg-[#020205] border-t border-neutral-900 flex flex-col items-center justify-center overflow-hidden">
+      <footer className="relative z-10 w-full pt-32 pb-12 bg-[#020205] border-t border-neutral-900 flex flex-col items-center justify-center overflow-hidden">
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
+           initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
            transition={{ duration: 0.8, ease: "easeOut" }}
-           className="relative flex flex-col items-center gap-4 text-center px-6"
+           className="relative flex flex-col items-center w-full max-w-5xl px-6"
         >
           {/* Subtle bg glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-32 bg-red-600/10 blur-[60px] rounded-full pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-40 bg-red-600/10 blur-[80px] rounded-full pointer-events-none" />
           
-          <div className="flex items-center gap-3">
-             <div className="w-12 h-[1px] bg-red-500/50" />
-             <p className="text-neutral-500 font-mono tracking-widest text-xs uppercase z-10">
+          <div className="flex items-center gap-4 mb-12">
+             <div className="w-16 md:w-32 h-[1px] bg-gradient-to-r from-transparent to-red-500/50" />
+             <p className="text-neutral-500 font-mono tracking-widest text-xs md:text-sm uppercase z-10">
                End of the Line
              </p>
-             <div className="w-12 h-[1px] bg-red-500/50" />
+             <div className="w-16 md:w-32 h-[1px] bg-gradient-to-l from-transparent to-red-500/50" />
           </div>
           
-          <p className="text-white font-bold tracking-[0.2em] uppercase z-10 flex flex-col md:flex-row items-center gap-2 text-lg">
-            Made by <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-800 drop-shadow-[0_0_10px_rgba(220,38,38,0.3)]">Iftamam Mortaza Rafi</span>
-          </p>
+          <div className="z-10 flex flex-col items-center gap-3 mb-20 text-center">
+            <p className="text-neutral-400 font-sans tracking-[0.2em] uppercase text-xs">
+              Designed & Developed by
+            </p>
+            <motion.div
+              animate={{
+                filter: [
+                  "drop-shadow(0px 0px 4px rgba(220,38,38,0.2))",
+                  "drop-shadow(0px 0px 16px rgba(220,38,38,0.8))",
+                  "drop-shadow(0px 0px 4px rgba(220,38,38,0.2))"
+                ]
+              }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              className="font-black tracking-[0.2em] uppercase text-2xl md:text-4xl mt-2"
+            >
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-600 to-red-800">
+                Iftamam Mortaza Rafi
+              </span>
+            </motion.div>
+          </div>
+
+          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-neutral-800 to-transparent mb-8" />
+
+          <div className="w-full flex flex-col md:flex-row items-center justify-between z-10 text-neutral-600 font-mono tracking-widest text-[10px] md:text-xs uppercase gap-4">
+            <p>© {new Date().getFullYear()} Spider-Man Experience</p>
+            <p>All Rights Reserved.</p>
+          </div>
         </motion.div>
       </footer>
     </div>
