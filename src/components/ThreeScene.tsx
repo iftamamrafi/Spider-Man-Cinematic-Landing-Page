@@ -70,6 +70,8 @@ const RedSun = ({ scrollRef }: { scrollRef: React.RefObject<number> }) => {
 };
 
 const AbstractWebs = () => {
+  const group = useRef<THREE.Group>(null);
+  
   const lines = useMemo(() => {
     const list = [];
     for(let i=0; i<15; i++) {
@@ -81,8 +83,17 @@ const AbstractWebs = () => {
     return list;
   }, []);
 
+  useFrame((state) => {
+    if (!group.current) return;
+    // Subtly react to mouse movement (shifting/pulsing)
+    group.current.rotation.z = THREE.MathUtils.lerp(group.current.rotation.z, state.pointer.x * 0.1, 0.02);
+    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, state.pointer.y * 0.1, 0.02);
+    const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.02 + (Math.abs(state.pointer.x) + Math.abs(state.pointer.y)) * 0.05;
+    group.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.05);
+  });
+
   return (
-    <group position={[0,0,-2]}>
+    <group ref={group} position={[0,0,-2]}>
       {lines.map((l, i) => {
         const points = [l.start, l.end];
         const geom = new THREE.BufferGeometry().setFromPoints(points);

@@ -10,11 +10,13 @@ gsap.registerPlugin(ScrollTrigger);
 const CastCard = ({ 
   name, 
   role, 
+  description,
   image, 
   index 
 }: { 
   name: string, 
   role: string, 
+  description: string,
   image: string,
   index: number
 }) => {
@@ -82,7 +84,16 @@ const CastCard = ({
       {/* Info Plate */}
       <div className="absolute bottom-0 inset-x-0 p-6 flex flex-col justify-end">
         <h3 className="text-xl font-bold text-white mb-1 uppercase tracking-wider">{name}</h3>
-        <p className="text-red-500 text-sm font-mono tracking-widest">{role}</p>
+        <div className="group/tooltip relative w-fit">
+          <p className="text-red-500 text-sm font-mono tracking-widest cursor-help inline-block border-b border-dashed border-red-500/50 hover:border-red-500 transition-colors uppercase pb-0.5">{role}</p>
+          
+          {/* Tooltip */}
+          <div className="absolute bottom-full left-0 mb-2 w-56 opacity-0 group-hover/tooltip:opacity-100 translate-y-2 group-hover/tooltip:translate-y-0 transition-all duration-300 pointer-events-none z-30">
+            <div className="bg-[#0a0a0a]/90 border border-neutral-800 text-neutral-300 text-xs leading-relaxed p-3 rounded-md shadow-2xl backdrop-blur-md shadow-red-900/10 font-sans normal-case">
+              {description}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -109,11 +120,11 @@ export const CastSection = () => {
   }, []);
 
   const cast = [
-    { name: "Miles Morales", role: "Spider-Man", image: "https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?q=80&w=1000&auto=format&fit=crop" },
-    { name: "Gwen Stacy", role: "Ghost-Spider", image: "https://images.unsplash.com/photo-1516528387618-afa90b13e000?q=80&w=1000&auto=format&fit=crop" },
-    { name: "Miguel O'Hara", role: "Spider-Man 2099", image: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?q=80&w=1000&auto=format&fit=crop" },
-    { name: "Peter B. Parker", role: "Spider-Man", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop" },
-    { name: "Hobie Brown", role: "Spider-Punk", image: "https://images.unsplash.com/photo-1608889175123-8ee362201f81?q=80&w=1000&auto=format&fit=crop" }
+    { name: "Miles Morales", role: "Spider-Man", description: "The teenager from Brooklyn bitten by a radioactive spider.", image: "https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?q=80&w=1000&auto=format&fit=crop" },
+    { name: "Gwen Stacy", role: "Ghost-Spider", description: "Drummer, multidimensional traveler, and skilled fighter.", image: "https://images.unsplash.com/photo-1516528387618-afa90b13e000?q=80&w=1000&auto=format&fit=crop" },
+    { name: "Miguel O'Hara", role: "Spider-Man 2099", description: "Leader of the Spider-Society, hailing from Nueva York.", image: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?q=80&w=1000&auto=format&fit=crop" },
+    { name: "Peter B. Parker", role: "Spider-Man", description: "A slightly jaded but experienced mentor figure.", image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop" },
+    { name: "Hobie Brown", role: "Spider-Punk", description: "An anarchist, anti-establishment Spider-Man with a guitar.", image: "https://images.unsplash.com/photo-1608889175123-8ee362201f81?q=80&w=1000&auto=format&fit=crop" }
   ];
 
   return (

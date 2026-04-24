@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useScroll, useMotionValueEvent, motion, useTransform } from 'motion/react';
+import { useScroll, useMotionValueEvent, motion, useTransform, AnimatePresence } from 'motion/react';
 import { Canvas } from '@react-three/fiber';
 import { EffectComposer, Bloom, Noise, ChromaticAberration } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import Lenis from 'lenis';
 import { SceneContent } from './components/ThreeScene';
 import { CastSection } from './components/CastSection';
+import { LoadingScreen } from './components/LoadingScreen';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [lenis, setLenis] = useState<Lenis | null>(null);
   const scrollRef = useRef<number>(0);
   const { scrollYProgress } = useScroll();
@@ -19,6 +21,12 @@ function App() {
   });
 
   useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+    
+    document.body.style.overflow = '';
     const l = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -27,7 +35,7 @@ function App() {
     });
     setLenis(l);
     return () => l.destroy();
-  }, []);
+  }, [isLoading]);
 
   useEffect(() => {
     if (!lenis) return;
@@ -44,8 +52,13 @@ function App() {
   const blurValue = useTransform(scrollYProgress, [0, 0.2], ["blur(0px)", "blur(10px)"]);
 
   return (
-    <div className="relative w-full bg-[#050510] font-sans selection:bg-red-500 selection:text-white">
-      {/* 3D Background - Fixed underneath */}
+    <>
+      <AnimatePresence>
+        {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      </AnimatePresence>
+
+      <div className="relative w-full bg-[#050510] font-sans selection:bg-red-500 selection:text-white" style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.2s ease-in' }}>
+        {/* 3D Background - Fixed underneath */}
       <div className="fixed inset-0 z-0">
         <Canvas gl={{ antialias: false, alpha: false }} dpr={[1, 1.5]}>
           <color attach="background" args={['#050510']} />
@@ -166,6 +179,7 @@ function App() {
         </motion.div>
       </footer>
     </div>
+    </>
   );
 }
 
